@@ -1,0 +1,80 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-init-job
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      containers:
+        - name: mysql-init
+          image: mysql:8.0.43
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_HOST
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_ROOT_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: todo-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_TODO_DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_TODO_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: todo-secret
+                  key: MYSQL_TODO_PASSWORD
+          command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Waiting for MySQL DNS to be resolvable..."
+              until getent hosts "$MYSQL_HOST"; do
+                echo "Waiting for DNS to resolve..."
+                sleep 5
+              done
+
+              echo "DNS resolved. Waiting for MySQL to accept connections..."
+              until mysqladmin ping -h "$MYSQL_HOST" -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" --silent; do
+                echo "Waiting for MySQL to be ready..."
+                sleep 5
+              done
+              echo "MySQL is ready! Running init scripts..."
+              mysql -h "$MYSQL_HOST" -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" <<EOF
+              CREATE DATABASE IF NOT EXISTS ${DB_NAME};
+              CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+              GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
+              FLUSH PRIVILEGES;
+              USE ${DB_NAME};
+              CREATE TABLE IF NOT EXISTS todo (
+              id BIGINT PRIMARY KEY AUTO_INCREMENT,
+              title VARCHAR(255) NOT NULL,
+              priority VARCHAR(50),
+              description TEXT,
+              completed BOOLEAN DEFAULT FALSE,
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+              );
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (1, 'title -1', 'High', 'This is a high priority todo', FALSE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (2, 'title -2', 'Medium', 'This is a medium priority todo', TRUE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (3, 'title -3', 'Low', 'This is a low priority todo', FALSE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (4, 'title -4', 'High', 'This is a high priority todo', TRUE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (5, 'title -5', 'Medium', 'This is a medium priority todo', FALSE);
+              EOF
+      restartPolicy: OnFailure

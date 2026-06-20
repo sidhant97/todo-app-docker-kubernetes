@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-deployment
+  labels:
+    app: todo
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: todo
+  template:
+    metadata:
+      labels:
+        app: todo
+    spec:
+      containers:
+        - name: todo
+          image: sidhant97/todo:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_PORT
+            - name: MYSQL_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_TODO_DB_NAME
+            - name: MYSQL_URL
+              value: "jdbc:mysql://$(MYSQL_HOST):$(MYSQL_PORT)/$(MYSQL_DB_NAME)"
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-configmap
+                  key: MYSQL_TODO_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: todo-secret
+                  key: MYSQL_TODO_PASSWORD
+          livenessProbe:
+            httpGet:
+              path: actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: actuator/health/readiness
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: actuator/health
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-service
+spec:
+  selector:
+    app: todo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081

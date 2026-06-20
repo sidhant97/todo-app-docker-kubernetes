@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-configmap
+data:
+  MYSQL_HOST: "mysql-0.mysql.default.svc.cluster.local"
+  MYSQL_PORT: "3306"
+  MYSQL_ROOT_USER: "root"
+  MYSQL_TODO_DB_NAME: "todo_db"
+  MYSQL_TODO_USER: "todo_user"
