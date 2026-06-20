@@ -71,10 +71,10 @@ spec:
               created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
               updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
               );
-              INSERT INTO todo (id, title, priority, description, completed) VALUES (1, 'title -1', 'High', 'This is a high priority todo', FALSE);
-              INSERT INTO todo (id, title, priority, description, completed) VALUES (2, 'title -2', 'Medium', 'This is a medium priority todo', TRUE);
-              INSERT INTO todo (id, title, priority, description, completed) VALUES (3, 'title -3', 'Low', 'This is a low priority todo', FALSE);
-              INSERT INTO todo (id, title, priority, description, completed) VALUES (4, 'title -4', 'High', 'This is a high priority todo', TRUE);
-              INSERT INTO todo (id, title, priority, description, completed) VALUES (5, 'title -5', 'Medium', 'This is a medium priority todo', FALSE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (1, 'Complete DevOps Assignment', 'High', 'Deploy Spring Boot and MySQL multi-tier app to GKE cluster', FALSE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (2, 'Optimize Database Indexes', 'High', 'Analyze slow query logs and add indexes to the user_sessions table', FALSE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (3, 'Set up Prometheus Alerts', 'Medium', 'Configure Slack notifications for high CPU utilization on production pods', TRUE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (4, 'Fix React Memory Leak', 'Medium', 'Resolve the useEffect dependency array issue causing infinite re-renders', FALSE);
+              INSERT INTO todo (id, title, priority, description, completed) VALUES (5, 'Update API Documentation', 'Low', 'Generate updated Swagger/OpenAPI specs for the v2 auth endpoints', TRUE);
               EOF
       restartPolicy: OnFailure
