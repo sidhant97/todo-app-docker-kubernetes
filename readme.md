@@ -16,7 +16,7 @@ The system is built using a modern multi-tier microservices architecture, adheri
 ## 📂 Project Assets
 
 * **GitHub Repository:** [sidhant97/todo-app-docker-kubernetes](https://github.com/sidhant97/todo-app-docker-kubernetes.git)
-* **Docker Hub Image:** [sidhant97/todoapplication](https://hub.docker.com/repository/docker/sidhant97/todoapplication)
+* **Docker Hub Image:** [sidhant97/todo-app-docker-kubernetes](https://hub.docker.com/repository/docker/sidhant97/todo-app-docker-kubernetes)
 * **Source Code (Backup):** [Google Drive Link]
 * **Demo Recording:** [Google Drive Link]
 

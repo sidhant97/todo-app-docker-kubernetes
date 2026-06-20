@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todo
-          image: sidhant97/todo:latest
+          image: sidhant97/todo-app-docker-kubernetes:latest
           ports:
             - containerPort: 8081
           env:
