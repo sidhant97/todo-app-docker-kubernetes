@@ -1,0 +1,180 @@
+{
+  "info": {
+    "_postman_id": "9b8f052a-7ce0-40c0-a791-8df5fc1c8ec0",
+    "name": "todo-app-docker-kubernetes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56049710",
+    "_collection_link": "https://go.postman.co/collection/56049710-9b8f052a-7ce0-40c0-a791-8df5fc1c8ec0?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Tasks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/todos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Completed Tasks Only",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/todos?completed=false",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "todos"
+          ],
+          "query": [
+            {
+              "key": "completed",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create / Add a New Task",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Complete DevOps Assignment\",\r\n    \"description\": \"Deploy Spring Boot and MySQL multi-tier app to GKE cluster\",\r\n    \"completed\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/todos/todo/add",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "todos",
+            "todo",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete a Task",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/todos/todo/1/finish",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "todos",
+            "todo",
+            "1",
+            "finish"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete a Task",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/todos/todo/1/delete",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "todos",
+            "todo",
+            "1",
+            "delete"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create / Add a New Task",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Complete DevOps Assignment\",\r\n    \"description\": \"Deploy Spring Boot and MySQL multi-tier app to GKE cluster\",\r\n    \"completed\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/todos/todo/add",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "todos",
+            "todo",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
