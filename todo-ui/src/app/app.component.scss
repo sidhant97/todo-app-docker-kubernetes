@@ -1,0 +1,20 @@
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.main {
+  min-height: 100vh;
+  min-width: 100vh;
+  box-sizing: border-box;
+}
+
+header {
+  background: #ECE9E6;
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+  p {
+    font-size: 48px;
+    margin-left: 20px;
+  }
+}

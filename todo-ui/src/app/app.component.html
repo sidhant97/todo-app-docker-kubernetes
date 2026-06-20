@@ -1,0 +1,129 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>Task Workspace</h1>
+    <p>Manage your daily workflows and priorities efficiently.</p>
+  </header>
+
+  <main class="main-content">
+    <section class="form-section">
+      <div class="card">
+        <h2>Create New Task</h2>
+        <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+          
+          <div class="form-group">
+            <label for="title">Task Title*</label>
+            <input 
+              id="title" 
+              type="text" 
+              formControlName="title" 
+              placeholder="e.g., Fix database connection leaks"
+            />
+            @if (todoForm.get('title')?.touched && todoForm.get('title')?.invalid) {
+              <div class="error-msg">Title is required (max 50 characters).</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="priority">Priority Level</label>
+            <select id="priority" formControlName="priority">
+              <option value="High">🔴 High Priority</option>
+              <option value="Medium">🟡 Medium Priority</option>
+              <option value="Low">🔵 Low Priority</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Detailed Description</label>
+            <textarea 
+              id="description" 
+              rows="4" 
+              formControlName="description" 
+              placeholder="Describe scope, requirements..."
+            ></textarea>
+          </div>
+
+          <button type="submit" [disabled]="todoForm.invalid" class="btn btn-primary">
+            Add Task
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <section class="board-section">
+      
+      <div class="board-column">
+        <div class="column-header">
+          <h3>In Progress / Pending</h3>
+          @if (pendingTodos$ | async; as pending) {
+            <span class="count-badge pending-bg">{{ pending.length }}</span>
+          }
+        </div>
+
+        <div class="task-list">
+          @if (pendingTodos$ | async; as pendingList) {
+            @for (todo of pendingList; track todo.id) {
+              <div class="task-card">
+                <div class="task-meta">
+                  <span class="badge" [ngClass]="{
+                    'badge-high': todo.priority === 'High',
+                    'badge-medium': todo.priority === 'Medium',
+                    'badge-low': todo.priority === 'Low'
+                  }">{{ todo.priority }}</span>
+                </div>
+                <h4 class="task-title">{{ todo.title }}</h4>
+                @if (todo.description) {
+                  <p class="task-desc">{{ todo.description }}</p>
+                }
+                
+                <div class="task-actions">
+                  <button type="button" class="btn btn-success btn-sm" (click)="markAsComplete(todo.id)">
+                    ✓ Complete
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="deleteTodo(todo.id)">
+                    🗑 Delete
+                  </button>
+                </div>
+              </div>
+            } @empty {
+              <div class="empty-state">No active tasks right now.</div>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="board-column">
+        <div class="column-header">
+          <h3>Completed Tasks</h3>
+          @if (doneTodos$ | async; as done) {
+            <span class="count-badge done-bg">{{ done.length }}</span>
+          }
+        </div>
+
+        <div class="task-list">
+          @if (doneTodos$ | async; as doneList) {
+            @for (todo of doneList; track todo.id) {
+              <div class="task-card task-completed">
+                <div class="task-meta">
+                  <span class="badge badge-completed">Completed</span>
+                </div>
+                <h4 class="task-title">{{ todo.title }}</h4>
+                @if (todo.description) {
+                  <p class="task-desc">{{ todo.description }}</p>
+                }
+                
+                <div class="task-actions justify-end">
+                  <button type="button" class="btn btn-danger btn-sm" (click)="deleteTodo(todo.id)">
+                    🗑 Delete
+                  </button>
+                </div>
+              </div>
+            } @empty {
+              <div class="empty-state">No resolved tasks yet.</div>
+            }
+          }
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
