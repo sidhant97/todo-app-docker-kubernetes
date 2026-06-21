@@ -47,23 +47,30 @@ spec:
                 secretKeyRef:
                   name: todo-secret
                   key: MYSQL_TODO_PASSWORD
+          resources:
+            requests:
+              memory: "320Mi" # Safe minimum target ceiling required to boot a standard Java JVM
+              cpu: "250m"
+            limits:
+              memory: "512Mi" # Restricts application memory leaks from degrading node clusters
+              cpu: "500m"
           livenessProbe:
             httpGet:
-              path: actuator/health/liveness
+              path: /actuator/health/liveness
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: actuator/health/readiness
+              path: /actuator/health/readiness
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 3
           startupProbe:
             httpGet:
-              path: actuator/health
+              path: /actuator/health
               port: 8081
             initialDelaySeconds: 15
             periodSeconds: 10

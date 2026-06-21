@@ -284,6 +284,11 @@ kubectl delete pod mysql-0
 kubectl get pods -l app=mysql -w
 
 ```
+### 💡 FinOps & Resource Optimization Report
+
+1. **JVM Tailored Resource Balancing:** We introduced explicit container limits to the Service API tier (`320Mi` request bounds and `512Mi` limit bounds). This optimizes the initial memory footprint required by the Java runtime while preventing cluster out-of-memory errors.
+2. **Elastic Compute Scaling:** Implemented a native Horizontal Pod Autoscaler configuration. The system scales up to 10 pods only when operational compute traffic spikes, ensuring you don't pay for idle nodes.
+3. **Decoupled Tier Architecture:** Switched all cross-tier communication parameters from specific instance targets to load-balanced ClusterIP endpoints, ensuring traffic distributes evenly without wasting network overhead.
 
 ---
 

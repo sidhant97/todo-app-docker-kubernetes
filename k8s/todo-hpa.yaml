@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: todo-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: todo-deployment
+  minReplicas: 4 # Floor limit precisely matches matrix
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 65 # Dynamically spins up additional pods under heavy loads

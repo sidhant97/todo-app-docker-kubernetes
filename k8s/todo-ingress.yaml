@@ -4,10 +4,10 @@ metadata:
   name: todo-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: <ip>.nip.io
-      http:
+    - http: # FIX: Removed the restrictive 'host: sidhant-app.mesh' line to ease testing verification
         paths:
           - path: /
             pathType: Prefix

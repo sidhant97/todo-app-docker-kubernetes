@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: todo-configmap
 data:
-  MYSQL_HOST: "mysql-0.mysql.default.svc.cluster.local"
+# FIX: Change from "mysql-0.mysql.default.svc.cluster.local" to the shared service endpoint
+  MYSQL_HOST: "mysql.default.svc.cluster.local"
   MYSQL_PORT: "3306"
   MYSQL_ROOT_USER: "root"
   MYSQL_TODO_DB_NAME: "todo_db"
