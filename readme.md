@@ -284,6 +284,87 @@ kubectl delete pod mysql-0
 kubectl get pods -l app=mysql -w
 
 ```
+
+# GKE Cluster Monitoring & Autoscaling
+
+This guide provides a structured set of `kubectl` operations to monitor, inspect, and troubleshoot the **Horizontal Pod Autoscaler (HPA)**, container resource consumption, and node capacity allocations for the `todo-app` microservice architecture.
+
+---
+
+## 1. Horizontal Pod Autoscaler (HPA) Diagnostics
+
+Use these commands to verify that the application auto-scales correctly under load and matches the target threshold metrics.
+
+### View HPA Summary Table
+Quickly inspect the current CPU usage versus the target percentage threshold, along with operational pod replica boundaries.
+```bash
+kubectl get hpa todo-app-hpa
+
+```
+
+### Inspect Detailed HPA Status & Event History
+
+Inspect the raw controller state, active metrics data streams, and chronological scaling history logs (e.g., scale-up/scale-down triggers).
+
+```bash
+kubectl describe hpa todo-app-hpa
+
+```
+
+### Stream Live Auto-Scaling Metrics
+
+Open an active watcher stream in your terminal to observe scaling infrastructure changes and replica modifications in real time.
+
+```bash
+kubectl get hpa todo-app-hpa -w
+
+```
+
+---
+
+## 2. Pod-Level Resource Utilization
+
+Monitor real-time compute resources consumed by active application container runtimes.
+
+### Check Current Pod CPU & Memory Consumption
+
+Query the cluster metrics server to evaluate the actual compute load currently utilized by individual backend application pods.
+
+```bash
+kubectl top pods -l app=todo
+
+```
+
+---
+
+## 3. Node Capacity & Resource Allocation
+
+Verify that your physical node pool has enough overhead capacity to host maximum scale-out events.
+
+### View Real-Time Node Compute Consumption
+
+Display the cumulative CPU and memory overhead currently consumed across individual cluster VM instances.
+
+```bash
+kubectl top nodes
+
+```
+
+### Review Total Allocated vs. Requested Resources
+
+Generate a detailed report detailing the exact percentage of CPU and memory capacity that has been reserved via container requests and limits.
+
+```bash
+kubectl describe nodes | grep -A 7 -E "Resource.*Requests.*Limits"
+
+```
+
+> 💡 **Troubleshooting Tip:** If any `top` metric command returns an error or reads `<unknown>`, verify that the cluster's **Metrics Server** is operational and that your deployment manifests explicitly specify values inside the `resources.requests` block.
+
+```
+
+```
+
 ### 💡 FinOps & Resource Optimization Report
 
 1. **JVM Tailored Resource Balancing:** We introduced explicit container limits to the Service API tier (`320Mi` request bounds and `512Mi` limit bounds). This optimizes the initial memory footprint required by the Java runtime while preventing cluster out-of-memory errors.
