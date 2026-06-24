@@ -74,6 +74,14 @@ EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ```
+## Development
+
+### Build the Docker Image
+
+To build the Docker image locally, run the following command from the root directory:
+
+```bash
+docker build -t sidhant97/todo-app-docker-kubernetes:latest .
 
 ---
 
