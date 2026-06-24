@@ -17,8 +17,8 @@ The system is built using a modern multi-tier microservices architecture, adheri
 
 * **GitHub Repository:** [sidhant97/todo-app-docker-kubernetes](https://github.com/sidhant97/todo-app-docker-kubernetes.git)
 * **Docker Hub Image:** [sidhant97/todo-app-docker-kubernetes](https://hub.docker.com/repository/docker/sidhant97/todo-app-docker-kubernetes)
-* **Source Code (Backup):** [Google Drive Link]
-* **Demo Recording:** [Google Drive Link]
+* **Source Code (Backup):** [[Google Drive Link](https://drive.google.com/file/d/1U9bYmd8zEmMBxfcuLMvz91fqDoqV1i-4/view?usp=sharing)]
+* **Demo Recording:** [[Google Drive Link](https://drive.google.com/file/d/1U9bYmd8zEmMBxfcuLMvz91fqDoqV1i-4/view?usp=sharing)]
 
 > ⚠️ **Note on Live Endpoint:** As instructed, the GKE cluster was systematically torn down immediately after recording the demo to optimize cloud costs. The structural format used for routing traffic via Ingress during the evaluation was: `http://<EXTERNAL-IP>.nip.io/api/todos`
 
